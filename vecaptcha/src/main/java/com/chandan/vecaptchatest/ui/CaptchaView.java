@@ -22,7 +22,9 @@ public class CaptchaView extends LinearLayout {
     private ImageView imageViewCaptcha;
     private CaptchaController controller;
     private final LinearLayout layoutCaptcha;
-    private final EditText editTextFillCaptcha;
+    private int captchaHeight;
+    private int captchaWidth;
+//    private final EditText editTextFillCaptcha;
 
     public CaptchaView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -31,6 +33,9 @@ public class CaptchaView extends LinearLayout {
 
         int refreshButtonWidth = arrayValues.getInteger(R.styleable.CaptchaView_refreshButtonWidth,50);
         int refreshButtonHeight = arrayValues.getInteger(R.styleable.CaptchaView_refreshButtonHeight,50);
+
+        captchaHeight = arrayValues.getInteger(R.styleable.CaptchaView_captchaHeight,60);
+        captchaWidth = arrayValues.getInteger(R.styleable.CaptchaView_captchaWidth,100);
 
         arrayValues.recycle();
 
@@ -61,18 +66,15 @@ public class CaptchaView extends LinearLayout {
         layoutCaptcha.addView(imageViewCaptcha);
         layoutCaptcha.addView(imageViewRefreshCaptcha);
 
-
-        editTextFillCaptcha = new EditText(getContext());
         LayoutParams params = new LayoutParams(
                 controller.width * 2,
                 LayoutParams.WRAP_CONTENT
         );
 
         params.setMargins(0,10,20,0);
-        editTextFillCaptcha.setGravity(Gravity.CENTER);
-        editTextFillCaptcha.setLayoutParams(params);
 
-        Log.d("TESTING ", "CaptchaView: Width " + imageViewCaptcha.getLayoutParams().width);
+        Log.d("TESTING ", "CaptchaView: Width " + imageViewCaptcha.getLayoutParams().width +
+        " Refresh Button height and width:- " + refreshButtonHeight + " , " + refreshButtonWidth);
 
         imageViewRefreshCaptcha.setOnClickListener(new OnClickListener() {
             @Override
@@ -84,7 +86,6 @@ public class CaptchaView extends LinearLayout {
         });
 
         addView(layoutCaptcha);
-        addView(editTextFillCaptcha);
     }
 
     private void refreshCaptchaImage() {
@@ -92,18 +93,13 @@ public class CaptchaView extends LinearLayout {
         controller = refreshCaptcha();
         imageViewCaptcha.setImageBitmap(controller.getImage());
         addView(layoutCaptcha);
-        addView(editTextFillCaptcha);
     }
 
     public int getCaptchaAnswer() {
         return Integer.parseInt(controller.answer);
     }
 
-    public int getUserInput() {
-        return Integer.parseInt(editTextFillCaptcha.getText().toString().trim());
-    }
-
     private CaptchaController refreshCaptcha() {
-        return new GenerateCaptcha(imageViewCaptcha.getLayoutParams().width, 60, GenerateCaptcha.MathOptions.PLUS_MINUS_MULTIPLY);
+        return new GenerateCaptcha(captchaWidth, captchaHeight, GenerateCaptcha.MathOptions.PLUS_MINUS_MULTIPLY);
     }
 }

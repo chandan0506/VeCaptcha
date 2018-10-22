@@ -3,5 +3,7 @@
     <declare-styleable name="CaptchaView">
         <attr name="refreshButtonWidth" format="integer"/>
         <attr name="refreshButtonHeight" format="integer"/>
+        <attr name="captchaHeight" format="integer"/>
+        <attr name="captchaWidth" format="integer"/>
     </declare-styleable>
 </resources>

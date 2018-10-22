@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.chandan.vecaptchatest.ui.CaptchaView;
@@ -19,12 +20,14 @@ public class MainActivity extends AppCompatActivity {
 
         button = this.findViewById(R.id.bt_test);
 
+        final EditText editTextInput = this.findViewById(R.id.et_input);
+
         final CaptchaView captchaView = this.findViewById(R.id.captcha_view);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (captchaView.getCaptchaAnswer() == captchaView.getUserInput()) {
+                if (captchaView.getCaptchaAnswer() == Integer.parseInt(editTextInput.getText().toString().trim())) {
                     Toast.makeText(MainActivity.this, "Right captcha.", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(MainActivity.this, "Wrong captcha.", Toast.LENGTH_SHORT).show();
