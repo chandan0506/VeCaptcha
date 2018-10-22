@@ -1,9 +1,12 @@
 package com.chandan.vecaptchatest.ui;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -17,10 +20,19 @@ import com.chandan.vecaptchatest.captcha.GenerateCaptcha;
  */
 public class CaptchaView extends LinearLayout {
     private ImageView imageViewCaptcha;
-    private EditText editTextFillCaptcha;
     private CaptchaController controller;
+    private final LinearLayout layoutCaptcha;
+    private final EditText editTextFillCaptcha;
+
     public CaptchaView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+
+        TypedArray arrayValues = context.obtainStyledAttributes(attrs,R.styleable.CaptchaView,0,0);
+
+        int refreshButtonWidth = arrayValues.getInteger(R.styleable.CaptchaView_refreshButtonWidth,50);
+        int refreshButtonHeight = arrayValues.getInteger(R.styleable.CaptchaView_refreshButtonHeight,50);
+
+        arrayValues.recycle();
 
         setOrientation(LinearLayout.VERTICAL);
         setGravity(Gravity.CENTER);
@@ -31,18 +43,55 @@ public class CaptchaView extends LinearLayout {
         imageViewCaptcha.setImageBitmap(controller.getImage());
         imageViewCaptcha.setLayoutParams(new LinearLayout.LayoutParams(controller.width * 2, controller.height * 2));
 
+        ImageView imageViewRefreshCaptcha = new ImageView(getContext());
+        imageViewRefreshCaptcha.setImageDrawable(getResources().getDrawable(R.drawable.reload));
+
+        LayoutParams paramsRefresh = new LinearLayout.LayoutParams(
+                refreshButtonWidth,
+                refreshButtonHeight);
+
+
+        paramsRefresh.setMargins(10,0,0,0);
+        imageViewRefreshCaptcha.setLayoutParams(paramsRefresh);
+
+
+        layoutCaptcha = new LinearLayout(getContext());
+        layoutCaptcha.setOrientation(LinearLayout.HORIZONTAL);
+        layoutCaptcha.setGravity(Gravity.CENTER);
+        layoutCaptcha.addView(imageViewCaptcha);
+        layoutCaptcha.addView(imageViewRefreshCaptcha);
+
 
         editTextFillCaptcha = new EditText(getContext());
         LayoutParams params = new LayoutParams(
-                LayoutParams.MATCH_PARENT,
+                controller.width * 2,
                 LayoutParams.WRAP_CONTENT
         );
 
-        params.setMargins(0,20,0,0);
+        params.setMargins(0,10,20,0);
         editTextFillCaptcha.setGravity(Gravity.CENTER);
         editTextFillCaptcha.setLayoutParams(params);
 
-        addView(imageViewCaptcha);
+        Log.d("TESTING ", "CaptchaView: Width " + imageViewCaptcha.getLayoutParams().width);
+
+        imageViewRefreshCaptcha.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("TESTING ", "onClick: ");
+                refreshCaptchaImage();
+
+            }
+        });
+
+        addView(layoutCaptcha);
+        addView(editTextFillCaptcha);
+    }
+
+    private void refreshCaptchaImage() {
+        removeAllViewsInLayout();
+        controller = refreshCaptcha();
+        imageViewCaptcha.setImageBitmap(controller.getImage());
+        addView(layoutCaptcha);
         addView(editTextFillCaptcha);
     }
 
@@ -50,7 +99,11 @@ public class CaptchaView extends LinearLayout {
         return Integer.parseInt(controller.answer);
     }
 
+    public int getUserInput() {
+        return Integer.parseInt(editTextFillCaptcha.getText().toString().trim());
+    }
+
     private CaptchaController refreshCaptcha() {
-        return new GenerateCaptcha(80, 80, GenerateCaptcha.MathOptions.PLUS_MINUS_MULTIPLY);
+        return new GenerateCaptcha(imageViewCaptcha.getLayoutParams().width, 60, GenerateCaptcha.MathOptions.PLUS_MINUS_MULTIPLY);
     }
 }

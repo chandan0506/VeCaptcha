@@ -41,11 +41,12 @@ public class GenerateCaptcha extends CaptchaController {
 	    Canvas c = new Canvas(bitmap);
 	    c.drawRect(0, 0, getWidth(), this.height, p);
 	    
-	    LinearGradient fontGrad = new LinearGradient(0, 0, getWidth() / 2, this.height / 2, color(), color(), Shader.TileMode.CLAMP);
+	    LinearGradient fontGrad = new LinearGradient(0, getHeight()/2, getWidth() / 4, this.height / 2, color(), color(), Shader.TileMode.CLAMP);
 	    Paint tp = new Paint();
 	    tp.setDither(true);
 	    tp.setShader(fontGrad);
-	    tp.setTextSize(getWidth() / this.height * 20);
+	    tp.setTextSize(18);
+//	    tp.setTextSize(getWidth() / this.height * 20);
 	    Random r = new Random(System.currentTimeMillis());
 		one = r.nextInt(9) + 1;
 		two = r.nextInt(9) + 1;
@@ -69,8 +70,8 @@ public class GenerateCaptcha extends CaptchaController {
 		}
 	    char[] data = new char[]{String.valueOf(one).toCharArray()[0], oper(math), String.valueOf(two).toCharArray()[0]};
 	    for (int i=0; i<data.length; i++) {
-	        x += 30 + (Math.abs(r.nextInt()) % 65);
-	        y = 50 + Math.abs(r.nextInt()) % 50;
+	        x += (getWidth()/8) + (Math.abs(r.nextInt()) % 20);
+	        y = (getHeight()/2) + Math.abs(r.nextInt()) % 20;
 	        Canvas cc = new Canvas(bitmap);
 	        if(i != 1)
 	        	tp.setTextSkewX(r.nextFloat() - r.nextFloat());
