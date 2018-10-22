@@ -1,8 +1,5 @@
 # VeCaptcha
 
-| Indeterminate | Determinate |
-|:-------------:|:-----------:|
-
 ## Description
 
 This library used to implement a simple captcha.
