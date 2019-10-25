@@ -1,5 +1,32 @@
 apply plugin: 'com.android.library'
 
+ext {
+
+    //For bintray and jcenter distribution
+    bintrayRepo = 'VeCaptcha'
+    bintrayName = 'vecaptcha'
+
+    publishedGroupId = 'com.chandan.vecaptcha'
+    libraryName = 'vecaptcha'
+    artifact = 'vecaptcha' //This artifact name should be the same with library module name
+
+    libraryDescription = 'VeCaptcha for Android.'
+
+    siteUrl = ''
+    gitUrl = 'https://github.com/chandan0506/VeCaptcha'
+
+    libraryVersion = '1.0.1'
+
+    developerId = 'chandan0506'
+    developerName = 'Chandan Kumar'
+    developerEmail = 'ckchandane@gmail.com'
+//    organization = 'your_organization' // if you push to organization's repository.
+    licenseName = 'The Apache Software License, Version 2.0'  //Example for license
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+
+}
+
 android {
     compileSdkVersion 28
 
@@ -21,6 +48,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
 
 }
 
@@ -32,3 +63,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
+
+apply from: 'https://raw.githubusercontent.com/numetriclabz/jcenter/master/installv.gradle'
+apply from: 'https://raw.githubusercontent.com/numetriclabz/jcenter/master/bintrayv.gradle'

@@ -73,13 +73,13 @@ public class CaptchaView extends LinearLayout {
 
         params.setMargins(0,10,20,0);
 
-        Log.d("TESTING ", "CaptchaView: Width " + imageViewCaptcha.getLayoutParams().width +
-        " Refresh Button height and width:- " + refreshButtonHeight + " , " + refreshButtonWidth);
+        /*Log.d("TESTING ", "CaptchaView: Width " + imageViewCaptcha.getLayoutParams().width +
+        " Refresh Button height and width:- " + refreshButtonHeight + " , " + refreshButtonWidth);*/
 
         imageViewRefreshCaptcha.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("TESTING ", "onClick: ");
+//                Log.d("TESTING ", "onClick: ");
                 refreshCaptchaImage();
 
             }

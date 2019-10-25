@@ -32,6 +32,7 @@ That's all you need! In java File you need to do following things:
 
 ```java
 CaptchaView captchaView = this.findViewById(R.id.captcha_view);
+
 verifyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
